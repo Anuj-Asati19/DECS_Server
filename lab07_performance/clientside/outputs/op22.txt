@@ -1,0 +1,4 @@
+average:1002.000000 
+loop_iterations:5 
+total_time:12092 
+throughput:0.413497

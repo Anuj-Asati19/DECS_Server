@@ -1,0 +1,4 @@
+average:1186.800049 
+loop_iterations:5 
+total_time:37356 
+throughput:0.133847

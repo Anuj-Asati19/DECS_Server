@@ -1,0 +1,2 @@
+/usr/bin/ld: cannot open output file received_code: Text file busy
+collect2: error: ld returned 1 exit status
