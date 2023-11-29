@@ -10,6 +10,20 @@
 
 using namespace std;
 
+int sendDataToSocket(int sockfd, const string& data) {
+    int bytesSent = write(sockfd, data.c_str(), data.size());
+    if (bytesSent < 0) {
+        if (errno == EWOULDBLOCK || errno == EAGAIN) {
+            perror("Timeout occurred at writing.");
+        } else {
+            perror("Error in writing");
+        }
+        close(sockfd);
+        exit(EXIT_FAILURE);
+    }
+    return bytesSent;
+}
+
 int main(int argc, char *argv[]) {
     string fname;
     int sockfd = 0;
@@ -36,8 +50,7 @@ int main(int argc, char *argv[]) {
     serv_addr.sin_port = htons(portno);
     serv_addr.sin_family = AF_INET;
 
-    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr,
-          server->h_length);
+    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
 
     // create a buffer to store the name of the file to be graded
     string fbuff;
@@ -49,7 +62,6 @@ int main(int argc, char *argv[]) {
         fbuff.append(buffer, bytesRead);
     }
 
-    
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd < 0) {
@@ -66,67 +78,42 @@ int main(int argc, char *argv[]) {
         close(sockfd);
         exit(EXIT_FAILURE);
     }
-    
-    // new case logic here
-    if (decision == "new") {
-        // now we have to send the file for the grading.
-        int fbw1 = write(sockfd, decision.c_str(), fbuff.size());
-        if (fbw1 < 0){
+
+    if (decision == "new" || decision == "status") {
+        int fbw1 = sendDataToSocket(sockfd, decision);
+        int fbw2 = sendDataToSocket(sockfd, fbuff);
+
+        char res[10000];
+        int resbytes = read(sockfd, &res, 10000);
+        if (resbytes < 0) {
             if (errno == EWOULDBLOCK || errno == EAGAIN) {
-                perror("Timeout occurred at writing.");
+                perror("Timeout occurred at reading.");
             } else {
-                perror("Error in writing");
+                perror("Error in reading");
             }
             close(sockfd);
             exit(EXIT_FAILURE);
-        } 
-        else{
-            int fbw2 = write(sockfd, fbuff.c_str(), fbuff.size());
-            if (fbw2 < 0){
-                if (errno == EWOULDBLOCK || errno == EAGAIN) {
-                    perror("Timeout occurred at writing.");
-                } else {
-                    perror("Error in writing");
-                }
+        }
+
+        if (decision == "new") {
+            cout << "Your grading request ID " << res << " has been accepted and is currently being processed." << endl;
+        } else if (decision == "status") {
+            cout << "Status gotten" << endl;
+            const char* filePath = "tokenContainer.txt";
+            ofstream fileStream(filePath, ios::app);
+            if (!fileStream.is_open()) {
+                perror("Error opening file: ");
                 close(sockfd);
                 exit(EXIT_FAILURE);
             }
-            else{
-                char res[10000];
-                int resbytes = read(sockfd, &res, 10000);
-                if (resbytes < 0) {
-                    if (errno == EWOULDBLOCK || errno == EAGAIN) {
-                        perror("Timeout occurred at reading.");
-                    } else {
-                        perror("Error in reading");
-                    }
-                    close(sockfd);
-                    exit(EXIT_FAILURE);
-                }
-                const char* filePath = "tokenContainer.txt";
-                ofstream fileStream(filePath, ios::app);
-                if (!fileStream.is_open()){
-                    perror("Error opening file: ");
-                    close(sockfd);
-                    exit(EXIT_FAILURE);
-                }
-                string dataToAppend = res;
-                fileStream << dataToAppend << endl;
-                fileStream.close();
-                cout << "Your grading request ID " << res << " has been accepted and is currently being processed."<< endl;
-                
-            }
-        close(sockfd);
-        }
-    }
- 
-    
-    // Add status case logic here
-    else if (decision == "status") {
-        
-    }
 
-    else {
+            string dataToAppend = res;
+            fileStream << dataToAppend << endl;
+            fileStream.close();
+        }
+
+        close(sockfd);
+    } else {
         cout << "Request can be either 'new' or 'status'. No other type is accepted." << endl;
         exit(1);
     }
