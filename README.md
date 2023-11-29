@@ -12,7 +12,7 @@ You must require a client and a server i.e. 2 different laptops/computers.
 
 The two computers should be connected to the same LAN
 
-= Server Setup:
+*** Server Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-12.cse.iitb.ac.in
@@ -34,7 +34,7 @@ The two computers should be connected to the same LAN
      ./server 8080
      ```
 
-= Client Setup:
+*** Client Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-13.cse.iitb.ac.in
@@ -60,14 +60,14 @@ The two computers should be connected to the same LAN
 
 Building over lab06 version1 only, we will do performance analysis.
 
-= Server Setup:
+*** Server Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-14.cse.iitb.ac.in
      ```
    - clone the lab_07 file from the GitHub repository
      ```
-     Git clone https://github.com/Anuj-Asati19/DECS_Server.git
+     git clone https://github.com/Anuj-Asati19/DECS_Server.git
      ```
    - now change directory to lab07_performance where you have the lab07 code
      ```
@@ -82,7 +82,7 @@ Building over lab06 version1 only, we will do performance analysis.
      ./server 8080
      ```
 
-= Client Setup:
+*** Client Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-14.cse.iitb.ac.in
@@ -102,14 +102,14 @@ Building over lab06 version1 only, we will do performance analysis.
 
 3. Lab_08 Version 2:
 
-= Server Setup:
+*** Server Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-15.cse.iitb.ac.in
      ```
    - clone the lab_08 file from the GitHub repository
      ```
-     Git clone https://github.com/Anuj-Asati19/DECS_Server.git
+     git clone https://github.com/Anuj-Asati19/DECS_Server.git
      ```
    - now change directory to lab08_version2
      ```
@@ -124,14 +124,14 @@ Building over lab06 version1 only, we will do performance analysis.
      ./server 8080
      ```
 
-= Client Setup:
+*** Client Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-16.cse.iitb.ac.in
      ```
    - clone the lab_08 file from the GitHub repository
      ```
-     Git clone https://github.com/Anuj-Asati19/DECS_Server.git
+     git clone https://github.com/Anuj-Asati19/DECS_Server.git
      ```
    - now change directory to lab08_version2
      ```
@@ -144,14 +144,14 @@ Building over lab06 version1 only, we will do performance analysis.
 
 4. Lab_09 Version 3:
 
-= Server Setup:
+*** Server Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-17.cse.iitb.ac.in
      ```
    - clone the lab_09 file from the GitHub repository
      ```
-     Git clone https://github.com/Anuj-Asati19/DECS_Server.git
+     git clone https://github.com/Anuj-Asati19/DECS_Server.git
      ```
    - now change directory to lab09_version3
      ```
@@ -166,7 +166,7 @@ Building over lab06 version1 only, we will do performance analysis.
      ./multiserver 8080 10
      ```
 
-= Client Setup:
+*** Client Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-18.cse.iitb.ac.in
@@ -186,14 +186,14 @@ Building over lab06 version1 only, we will do performance analysis.
 
 5. Version 4:
 
-= Server Setup:
+*** Server Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-17.cse.iitb.ac.in
      ```
    - clone the final_version file from the GitHub repository
      ```
-     Git clone https://github.com/Anuj-Asati19/DECS_Server.git
+     git clone https://github.com/Anuj-Asati19/DECS_Server.git
      ```
    - now change directory to final_version
      ```
@@ -208,14 +208,14 @@ Building over lab06 version1 only, we will do performance analysis.
      ./server 8080 10
      ```
 
-= Client Setup:
+*** Client Setup:
    - ssh into the other computer where we want to run the client, say labuser
      ```
      ssh labuser@sl2-18.cse.iitb.ac.in
      ```
    - clone the lab_09 file from the GitHub repository
      ```
-     Git clone https://github.com/Anuj-Asati19/DECS_Server.git
+     git clone https://github.com/Anuj-Asati19/DECS_Server.git
      ```
    - now change directory to final_version
      ```
@@ -223,7 +223,7 @@ Building over lab06 version1 only, we will do performance analysis.
      ```
    - run analysis.sh
      ```
-     Bash analysis.sh
+     bash analysis.sh
      ```
 
 
