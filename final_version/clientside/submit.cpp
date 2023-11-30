@@ -196,7 +196,6 @@ else{
         	return -1;
     	}
     	int type=atoi(receive_type);
-    	cout<<type<<endl;
     	if(type==0){
     		char pos_recv[size_int];
     		if (recv(sockfd, pos_recv, sizeof(pos_recv), 0) == -1)
@@ -209,7 +208,6 @@ else{
     		printf("Server Response: Request is in the queue , at position: %d\n",position);
     	}
     	else if(type==1){
-    		
     		printf("Request not found!\n");	
     	}
     	else{
@@ -220,10 +218,8 @@ else{
     			return 1;
     		}
     		
-    		//string cat_command="cat "+fileName;
-    		//string rm_command="rm -f "+fileName;
-    		//system(cat_command.c_str());
-    		//system(rm_command.c_str());
+    		string cat_command="cat "+fileName;
+    		system(cat_command.c_str());
     	}
 	
 }	

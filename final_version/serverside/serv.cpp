@@ -286,9 +286,7 @@ void* serve_request(void* args) {
     string filename=submit+"testfile_"+request_id+".cpp";
    
     int pos=Queue.findPosition(filename.c_str());
-    cout<<"ppos "<<pos<<endl;
     if(pos!=-1){
-    	cout<<"ppos "<<pos<<endl;
     	string position=to_string(pos);
     	send(client_sockfd,"0",sizeof(int),0);
     	send(client_sockfd,position.c_str(),position.length(),0);
@@ -297,7 +295,6 @@ void* serve_request(void* args) {
     pos=fileQueue.findPosition(filename.c_str());
     if(pos!=-1){
     	pos+=Queue.size();
-    	cout<<"ppos "<<pos<<endl;
     	string position=to_string(pos);
     	send(client_sockfd,"0",sizeof(int),0);
     	send(client_sockfd,position.c_str(),position.length(),0);
@@ -313,11 +310,12 @@ void* serve_request(void* args) {
     	send(client_sockfd,"1",sizeof(int),0);
         pthread_exit(nullptr);
     }
-    
-    ifstream inputFile(result_Details); // File containing data
+    // File containing data
+    ifstream inputFile(result_Details); 
     string file_to_send="./results/result_"+request_id+".txt";
 
-    ofstream outputFile(file_to_send.c_str(), ios::app); // New file to store combined content
+	// New file to store combined content
+    ofstream outputFile(file_to_send.c_str(), ios::app); 
 
     if (outputFile.is_open() && inputFile.is_open()) {
         outputFile << result_Msg << endl; // Append result_Msg to the new file
@@ -376,6 +374,7 @@ int main(int argc, char *argv[])
 
     cout << "Server listening on port: " << port << "\n";
 
+	// creating the directories
     try
     {
         if (!fs::exists(SUBMISSIONS_DIR))
@@ -401,8 +400,8 @@ int main(int argc, char *argv[])
         return -1;
     }
     
+    // creating the threadpool
     pthread_t receive_thread[Size];
-
 	for (int i = 0; i < Size; i++) 
 	{
         if (pthread_create(&receive_thread[i], nullptr, start_worker, nullptr) != 0)
@@ -420,6 +419,7 @@ int main(int argc, char *argv[])
     	return 1;
     }
 
+    // server will run forever
     while (true)
     {
         int client_sockfd = accept(sockfd, (struct sockaddr *)&client_addr, &client_len);
@@ -432,7 +432,8 @@ int main(int argc, char *argv[])
     	}
     	int type=atoi(request_type);
     	
-    	if(type==0){    //new request
+    	//new request
+    	if(type==0){ 
     		string request_id=generateUUID();
     		string submit(SUBMISSIONS_DIR);
     		string filename=submit+"testfile_"+request_id+".cpp";
@@ -445,11 +446,13 @@ int main(int argc, char *argv[])
     		}
     		pthread_cond_signal(&data_available);
     		pthread_mutex_unlock(&fileLock);
-    		cout<<"sending message"<<endl;
+    		cout<<"File Received"<<endl;
     		string message="Submission accepted for grading , your request id is: "+request_id;
     		send(client_sockfd,message.c_str(),message.length(),0);
     		
     	}
+    	
+    	// status request
     	else{
     		char request[256];
     		recv(client_sockfd,request,255,0);
@@ -457,20 +460,15 @@ int main(int argc, char *argv[])
     		ThreadArgs* args = new ThreadArgs();
     		args->request_id = request_id;
     		args->client_sockfd = client_sockfd;
-    		
+    		cout<<"Sending Status"<<endl;
     		pthread_t find_request;
-    		
     		int rc=pthread_create(&find_request,nullptr, serve_request,  reinterpret_cast<void*>(args));
     		assert(rc==0);
     		pthread_detach(rc);
     		
-    	}
-        
-        
+    	}        
     }
 
     close(sockfd);
     return 0;
 }
-
-
